@@ -6,7 +6,7 @@
 ## 环境要求
 
 ### 硬件
-- 显卡：NVIDIA RTX 3090（24GB 显存，支持 CUDA）
+- 最低显卡：NVIDIA RTX 3090（24GB 显存，支持 CUDA）
 - 内存：≥ 32GB（推荐，避免模型加载时内存不足）
 
 ### 软件 / 依赖
@@ -17,8 +17,6 @@ conda activate chat
 pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt
 ```
 
-> 注：上面 `python` 版本仅为示例，请根据 `requirements.txt` 的兼容性调整。
-
 ## 部署
 
 1. 下载 Qwen3-8B 模型  
@@ -26,7 +24,7 @@ pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt
    https://www.modelscope.cn/models/Qwen/Qwen3-8B/files
 
 2. 修改代码中的模型路径  
-   打开 `mental_health_chat.py`，在第 10 行左右将 `model_path` 修改为你的模型实际路径，例如：
+   打开 `mental_health_chat.py`，在第 10 行左右将 `model_path` 修改为模型实际路径，例如：
 ```python
 model_path = "/home2/zzl/model/Qwen3-8B"
 ```
@@ -47,7 +45,7 @@ cd /path/to/your/project
 ```bash
 nohup streamlit run mental_health_chat.py --server.port 8501 --server.address 0.0.0.0 > chat_log.log 2>&1 &
 ```
-你可以替换 `8501` 为其他端口。
+可以替换 `8501` 为其他端口。
 
 ## 验证服务状态
 
@@ -86,7 +84,7 @@ sudo ufw status
 |---------------|------------------|
 | 查看实时日志   | `tail -f /home2/zzl/chat/chat_log.log` |
 | 停止服务       | `kill -9 <进程PID>`（PID 通过 `ps aux | grep streamlit` 获取） |
-| 重启服务       | `kill -9 <进程PID> && cd /home2/zzl/chat && conda activate chat && nohup streamlit run mental_health_chat.py --server.port 8501 --server.address 0.0.0.0 > chat_log.log 2>&1 &` |
+| 重启服务       | `kill -9 <进程PID> && cd /.../ && conda activate chat && nohup streamlit run mental_health_chat.py --server.port 8501 --server.address 0.0.0.0 > chat_log.log 2>&1 &` |
 | 检查 GPU 状态  | `nvidia-smi` |
 | 检查端口占用   | `netstat -tulpn | grep 8501` |
 | 清空日志文件   | `> /home2/zzl/chat/chat_log.log` |
@@ -94,10 +92,4 @@ sudo ufw status
 
 ## 常见注意事项
 - 确保模型路径正确且模型文件完整，否则模型加载会报错或 OOM。
-- 如果显存不足，考虑使用更小模型、启用显存优化或在更大显存的机器上运行。
-- 如果需要长期稳定运行，建议将服务通过 systemd 或 docker 容器管理（可按需提供示例）。
-
-## 后续改进建议（可选）
-- 添加 systemd 单元文件或 Dockerfile 以实现开机自启与容器化部署。
-- 增加健康检查接口及监控（Prometheus / Grafana）。
-- 提供更详细的依赖版本锁定（如 `pip freeze` / `environment.yml`）。
+- 如果显存不足，考虑启用显存优化或在更大显存的机器上运行。
